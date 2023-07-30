@@ -195,6 +195,10 @@ void CESP::Player_ESP(CBaseEntity* pLocal, CBaseEntity* pEntity)
 		for (int j = 0; j < 3; j++)
 			vTransformed[i][j] = vPointList[i].Dot((Vector&)vMatrix[j]) + vMatrix[j][3];
 
+	Vector b = pLocal->GetAbsAngles();
+	if (gCvars.radar_enabled)
+		gRadar.DrawRadarPoint(pEntity->GetAbsOrigin(), pLocal->GetAbsOrigin(), QAngle(b.x, b.y, b.z), pEntity, clrTeam);
+	
 	Vector flb, brt, blb, frt, frb, brb, blt, flt;
 
 	if (!gDrawManager.WorldToScreen(vTransformed[3], flb) ||
@@ -344,11 +348,6 @@ void CESP::Player_ESP(CBaseEntity* pLocal, CBaseEntity* pEntity)
 		DrawBone(pEntity, iLeftLegBones, 3, clrBoneCol);
 		DrawBone(pEntity, iRightLegBones, 3, clrBoneCol);
 	}
-
-	Vector b = pLocal->GetAbsAngles();
-
-	if (gCvars.radar_enabled)
-		gRadar.DrawRadarPoint(pEntity->GetAbsOrigin(), pLocal->GetAbsOrigin(), QAngle(b.x, b.y, b.z), pEntity, clrTeam);
 }
 
 
